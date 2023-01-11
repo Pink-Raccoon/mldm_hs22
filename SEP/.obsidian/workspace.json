@@ -69,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "8abf76ef16a8b70b",
@@ -149,8 +148,8 @@
   },
   "active": "5c0c0ad8eb1d9f35",
   "lastOpenFiles": [
-    "asset/Ngrams.png.md",
     "Summary.md",
+    "asset/Ngrams.png.md",
     "assets/GradientDescentLogisticRegression.png",
     "assets/LossFunction.png"
   ]

@@ -661,7 +661,7 @@ There are two types of errors:
 
 ![Measures](./assets/3_eval-measures.png)
 
-9.1.1 Kappa
+### 9.1.1 Kappa
 Another measure is the kappa value. It is the score of inter-rate agreement or disagreement and was developed for categorical ratings.
 
 $$K = \frac{P(A)-P(E)}{1-P(E)}$$
@@ -692,13 +692,14 @@ Where:
 ### 10.2.1 Traing-Test Split
 Splitting data into Training set and Test set (default 80%,20%) in order to test how good the model will perform on new data one separates test data from the training set
 ### 10.2.2 Training-Test-Validation Split
-To find proper values of hyperparameters one trains separate models with different parameter settings
+To find proper values of hyperparameters one trains separate models with different parameter settings (so called Hyperparameter Tuning). To evaluate the quality of these models the test data cannot be used, for this reason Original data is split into three subsets. Training set, validation set and test set (70,20,10 default).
 
 
 There are a few default approaches to split data into training, test and validation sets.
 
 ![Partitioning](./assets/3_partitioning.png)
-
+### 10.2.3 Small Data samples 
+The disadvantage of splitting is loosing much of the data for training, additionaly when only few data samples are  present, this could cause unreliable results.
 Another approach is to do a k-fold cross validation.
 
 1. Divide the data set into $k$ folds of equal size (e.g. $k=10$ or more common $k=5$)
@@ -706,9 +707,51 @@ Another approach is to do a k-fold cross validation.
 3. Repeat the model building and testing for each of the data folds.
 4. Calculate the average of all of the $k$ test errors and deliver this as a result.
 
-A sub variant of this is the leave-one-out cross validation (LOOCV) where the model is trained on $n-1$ samples and evaluated on a single data point. This is very expensive from a computing standpoint but can be useful for small datasets.
-## 7. Support Vector Machines
+A sub variant of this is the leave-one-out cross validation (LOOCV) (n-fold cross validation with n training samples and one gets left out) where the model is trained on $n-1$ samples and evaluated on a single data point. This is very expensive from a computing standpoint but can be useful for small datasets.
+## 10.3 Unbalanced data
+When there are some classes that are much smaller than others, these classes could become extremely rare or not occur at all in the test data, thus leading to skewed results.
 
+### 10.3.1 Stratified sampling
+Divides original data into classes (called "strata"), samples from these strata independently.
+![Stratified Sampling](./assets/StratifiedSampling.png)
+
+### 10.3.2 Over- and Undersampling
+**Goal:** Both methods try to ensure sampled data classes are balanced or better represented.
+
+#### 10.3.2.1 Oversampling
+Increases number of samples in minority classes by creating new synthetic samples. 
+**Methods for data augmentation:**
+- Replicating (If only replicated then high risk of overfitting) better in combination with:
+- Modifying (new but similar  samples of existing ones ) $\rightarrow$ Images could be translated, rotated, or scaled up and down and audio could be modified using high- or low-pass filters. 
+**Goal:** Create sufficient new synthentic samples such that all classes are of equal size.
+
+#### 10.3.2.2 Undersampling
+Randomly selects few samples from larger classes $\rightarrow$ number equals the number of samples from smaller classes
+**Disadvantage:** Reduces size of the dataset $\rightarrow$ causes information loss and in many cases decreased performance.
+
+### 10.3.3 SMOTE
+**Synthetic Minority Oversampling Technique** 
+Creates synthetic samples for smaller classes $\rightarrow$ interpolates neighbouring data points:
+- Selects random sample from small class
+- Computes k-nearest neigbours of this sample (k=5 typically)
+- Out of the k-neigbours on is randomly selected
+- synthetic example is created at a random position between two points
+**Best performance:** SMOTE combined with undersampling
+
+## 10.4 Learning Curves
+Visualization how our algorithm performs (Score like F1) on different amounts of training data $\rightarrow$ Train different subsets of training data (e.g. 10%,20%,...,100%) evaluate performance $\rightarrow$ on testdata **all available** test data.
+![Learning Curve with score](./assets/LearningCurveScore.png)
+Learning curves with errors:
+![Learning curve with errors](./assets/LearningCurveErrors.png)
+
+### 10.4.1 Evaluation of Learning Curves
+Evaluate tendencies of training and test curves for sufficient examples.
+
+**General Rules:**
+- Underfitting: Both curves are close to eachother and bot of them have a low score
+- Overfitting: Training curve has much better score than testing curbe
+
+# 11 Support Vector Machines (SVM)
 SVMs are supervised learning models with associated learning algorithms that analyze data for classification and regression analysis.
 The goal is to find a hyperplane that separates two classes of input points with a **maximum margin**.
 
@@ -735,6 +778,30 @@ SVMs also work in multiple dimensions:
 SVM is a binary classifier so if it has to separate more than two classes it does a pairwise comparison.
 
 ![](./assets/8_svm-pair.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 8. Decision Tree / Naive Bayes
 
@@ -822,3 +889,5 @@ $$dist(x,y)=\sum_{i=1}^{d}|x_i-y_i|$$
 
 
 
+
+# 11 Support Vector Machines
