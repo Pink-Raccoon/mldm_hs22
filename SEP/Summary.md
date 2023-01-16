@@ -1,56 +1,5 @@
 # MLDM
 
-- [1. Introduction](#1-introduction)
-  - [1.1. Definitions](#11-definitions)
-- [2. Data Processing](#2-data-processing)
-  - [2.1. Knowledge Discovery in Databases (KDD)](#21-knowledge-discovery-in-databases-kdd)
-  - [2.2. Data Types](#22-data-types)
-  - [2.3. Data Classes](#23-data-classes)
-  - [2.4. Data Cleaning](#24-data-cleaning)
-    - [2.4.1. Equal-Width-Binning](#241-equal-width-binning)
-    - [2.4.2. Equal-Depth-Binning](#242-equal-depth-binning)
-  - [2.5. Linear Regression](#25-linear-regression)
-  - [2.6. Data Normalization](#26-data-normalization)
-  - [2.7. Data Sampling](#27-data-sampling)
-    - [2.7.1. Non-Probabilistic](#271-non-probabilistic)
-    - [2.7.2. Probabilistic](#272-probabilistic)
-  - [2.8. Data Partitioning](#28-data-partitioning)
-- [3. Evaluation](#3-evaluation)
-  - [3.1. Measures](#31-measures)
-  - [3.2. Model Evaluation](#32-model-evaluation)
-  - [3.3. Clustering](#33-clustering)
-- [4. Recommender Systems](#4-recommender-systems)
-  - [4.1. Collaborative Filtering](#41-collaborative-filtering)
-    - [4.2. User-Based](#42-user-based)
-    - [4.3. Item-Based](#43-item-based)
-    - [4.4. Content-Based](#44-content-based)
-  - [4.5. Context-aware Filtering](#45-context-aware-filtering)
-- [5. Association Rules](#5-association-rules)
-  - [5.1. Measures](#51-measures)
-  - [5.2. Types](#52-types)
-  - [5.3. Collecting](#53-collecting)
-  - [5.4. Lift measure](#54-lift-measure)
-  - [5.5. Summary](#55-summary)
-- [6. Regressions](#6-regressions)
-  - [6.1. Linear Regression](#61-linear-regression)
-    - [6.1.1. Gradient Descent Method](#611-gradient-descent-method)
-    - [6.1.2. Mean square Error (MSE)](#612-mean-square-error-mse)
-    - [6.1.3. Multivariate Datasets](#613-multivariate-datasets)
-  - [6.2. Logistic Regression](#62-logistic-regression)
-- [7. Support Vector Machines](#7-support-vector-machines)
-  - [7.1. Multi-Dimension](#71-multi-dimension)
-  - [7.2. Multi-Class](#72-multi-class)
-- [8. Decision Tree / Naive Bayes](#8-decision-tree--naive-bayes)
-  - [8.1. Measures](#81-measures)
-  - [8.2. Naïve Bayes](#82-naïve-bayes)
-- [9. Partitioning Clustering](#9-partitioning-clustering)
-  - [9.1. Distance functions](#91-distance-functions)
-  - [9.2. K-means clustering](#92-k-means-clustering)
-  - [9.3. ISODATA](#93-isodata)
-  - [9.4. Measures](#94-measures)
-- [10. Hierarchical Density Clustering](#10-hierarchical-density-clustering)
-  - [10.1. DBSCAN](#101-dbscan)
-
 # 1. Introduction
 
 ![Overview](assets/1_overview_data-science-project.png)
@@ -755,36 +704,84 @@ Evaluate tendencies of training and test curves for sufficient examples.
 SVMs are supervised learning models with associated learning algorithms that analyze data for classification and regression analysis.
 The goal is to find a hyperplane that separates two classes of input points with a **maximum margin**.
 
+
 ![](./assets/8_svm-margin.png)
 
 
 - **Support Vector Classifier**: For almost linearly separable data
 - **Support Vector Machine**: For non-linearly separable data
 
-SVM allows for some misclassifications to improve the overall model. This is done with the $C$ penalty factor. If the margin is wide but some items are misclassified the penalty is low.
+```ad-note
+title: # Parameters
+icon: # Danger
+color: 200,200,200
 
+SVM allows for some misclassifications to improve the overall model. This is done with the $C$ penalty factor, it is a regularization parameter similar to that used in the linear models. If the margin is wide but some items are misclassified the penalty is low.
+```
 ![](./assets/8_svm-penalty.png)
 
 Choosing a threshold which allows misclassifications is an example of the bias/variance tradeoff.
 
-### 7.1. Multi-Dimension
+```ad-note
+title: # Slack Variables
+$\xi_i$ Keeps track of how much each point is classified.
+$0 < \xi <= 1$ = **Margin Violation** Point is between margin and correct side of hyperplane
+$\xi > 1$ **misclassified** 
+They are used to avoid overfitting
+
+```
+
+## 11.1 Multi-Class
+
+SVM is a binary classifier so if it has to separate more than two classes it does a pairwise comparison.
+One-vs-Rest approach:
+- N classes
+- N binary classification
+- N probabilities $p_k$
+- Choose highest probability to predict the class
+
+![](./assets/8_svm-pair.png)
+
+## 11.2 Multi-Dimension
 
 SVMs also work in multiple dimensions:
 
 ![](./assets/8_svm-multi-dimension.png)
 
-### 7.2. Multi-Class
+For problems where linear classifiers won't work:
+![Adding Higher Dimensional Features](./assets/SVM_higherDimensions.png)
 
-SVM is a binary classifier so if it has to separate more than two classes it does a pairwise comparison.
+Transformation: $(x_1,x_2) \rightarrow (x_1,x_2,x_1^2 + x_2^2)$
+``` ad-note
+title: # Common Kernel Functions
+Linear: $K(a,b) = a^Tb$  
 
-![](./assets/8_svm-pair.png)
+Polynomial: $K(a,b) = (a^Tb +t)^r$ with paramaters t, r 
 
+RBF = Radial Basis Function: $K(a,b) = e^{-\gamma||a-b||^2}$ with parameter $\gamma$  
+```
 
+## 11.3 RBF Kernel
 
+$K(a,b) = e^{-\gamma||a-b||^2}$ used to make a prediction for a new point, the distance to each of the support vectors is measured. A classification decision is made based on the distances to the support vectors. Parameter $\gamma$  controls width of the Gaussian kernel.
+``` ad-note
+title: # $\gamma$
+Inverse of the width of the Gaussian Kernel. Determines how far the influence of a single trianing example reaches.
+Low values: far reach (wider radius of the Gaussian kernel), which means many points are considered close by.
+High values: limited reach 
+```
+![Decision Boundaries](./assets/RBF.png)
+From top to bottom:
+- Small C, restricted model where each data point has limited influence, misclassified having barely any influence
+- Increasing C allows points to have a stronger influence
 
+## 11.4 Strengths, weaknesses and parameters
 
+**Strengths**: Allows for complex decision boundaries, even if data has few features. Work well on low-dimensional and high-dimensional data, but don't scale well with the number of samples. 100'000 or more can become challenging in terms of runtime and memory usage.
 
+**Weakness**: Require careful preprocessing of the data and tuning of the parameters.
 
+**Parameters:** $C$ and $\gamma$ should be adjusted together.
 
 
 
@@ -795,99 +792,3 @@ SVM is a binary classifier so if it has to separate more than two classes it doe
 
 
 
-
-
-
-
-
-
-
-
-## 8. Decision Tree / Naive Bayes
-
-A decision tree is a flowchart-like structure. Each internal node represents a "test" on an attribute and each branch represent the outcome of that test. Each leaf node represents a class label and the paths from root to leaf represent classification rules.
-
-![](./assets/9_decision-tree.png)
-
-**Advantages**
-
-- Simple to understand and interpret
-- Have value even with little hard data
-- Support to determine worst, best and expected values for different scenarios
-- Can be combined with other decision techniques and to form random forests
-
-**Disadvantages**
-
-- They are unstable, a small change in the data can lead to a large change in the structure of the optimal decision tree
-- They are often relatively inaccurate, other predictors perform better with similar data
-- Calculations can get very complex, particularly if many values are uncertain and/or if many outcomes are linked
-
-### 8.1. Measures
-
-- Impurity (Gini) measures how often a randomly chosen element form the set would be incorrectly labeled.
-
-![](./assets/9_gini.png)
-
-### 8.2. Naïve Bayes
-
-The Naïve Bayes classifiers are a family of simple "probabilistic classifiers" based on applying Bayes' theorem with strong (naïve) independence assumptions between the features.
-
-Bayes theorem:
-
-- $X$ is a data tuple
-- $H$ is some hypothesis, such as that $X$ belongs to a specified class $C$
-- $P(H|X)$ is the posterior probability of $h$ conditioned on $X$
-- $P(C_i|X)$ is the probability that tuple $X$ belongs to class $C_i$, given that we know the attribute description of $X$
-
-
-$$P(H|X)=\frac{P(X|H)*P(H)}{P(X)}$$
-$$P(C_i|X)=\frac{P(X|C_i)*P(C_i)}{P(X)}$$
-
-**Advantages**
-
-- Fast to train and classify
-- Performance is similar to decision trees and neural networks
-- Easy to implement
-- Handles numeric and categorical data
-- Useful for very large data sets
-
-**Disadvantages**
-
-- Assumes class conditional independence, therefore, loss of accuracy
-- Model is difficult to interpret
-
-
-
-
-
-
-### 9.1. Distance functions
-
-Distance function have a few requirements:
-
-- $dist(o_1, o_2) = 0 \rightarrow o_1 = o_2$
-- $dist(o_1, o_2) = d \in \mathbb{R}^*$
-- $dist(o_1, o_2) = dist(o_2, o_1)$
-- $dist(o_1, o_3)\le dist(o_1, o_2)+dist(o_2, o_3)$
-
-There are two distinct distance functions used:
-
-**Euclidean**
-$$dist(x,y)=\sqrt{\sum_{i=1}^{d}(x_i-y_i)^2}$$
-
-**Manhattan**
-$$dist(x,y)=\sum_{i=1}^{d}|x_i-y_i|$$
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 11 Support Vector Machines

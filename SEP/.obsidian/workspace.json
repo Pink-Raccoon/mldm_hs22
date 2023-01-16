@@ -17,7 +17,8 @@
                 "mode": "source",
                 "source": false
               }
-            }
+            },
+            "group": "0a4ad867f45950f3"
           }
         ]
       }
@@ -127,7 +128,8 @@
               "state": {
                 "file": "Summary.md"
               }
-            }
+            },
+            "group": "0a4ad867f45950f3"
           }
         ],
         "currentTab": 3
