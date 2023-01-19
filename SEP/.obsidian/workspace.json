@@ -17,10 +17,22 @@
                 "mode": "source",
                 "source": false
               }
-            },
-            "group": "0a4ad867f45950f3"
+            }
+          },
+          {
+            "id": "584e9ee4969cc25e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Summary Part 2.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -86,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Summary.md",
+                "file": "Summary Part 2.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Summary.md",
+                "file": "Summary Part 2.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,10 +138,9 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Summary.md"
+                "file": "Summary Part 2.md"
               }
-            },
-            "group": "0a4ad867f45950f3"
+            }
           }
         ],
         "currentTab": 3
@@ -148,8 +159,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5c0c0ad8eb1d9f35",
+  "active": "584e9ee4969cc25e",
   "lastOpenFiles": [
+    "Summary Part 2.md",
     "Summary.md",
     "asset/Ngrams.png.md",
     "assets/GradientDescentLogisticRegression.png",
